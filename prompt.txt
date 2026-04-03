@@ -22,3 +22,7 @@ Note: Planning pakai Gemini 3.1 Pro untuk eksekusi pakai Gemini 3 Flash
 Step 2
 
 Kerjakan GitHub Issue: https://github.com/meshachvijaya/vibe-coding/issues/2
+
+Step 3
+
+Buatkan Pull Request ke branch main di GitHub atas perubahan ini
