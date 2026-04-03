@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { LoginDto } from '../dto/login.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -30,5 +32,40 @@ export class UsersService {
     });
 
     return { data: 'OK' };
+  }
+
+  async loginUser(dto: LoginDto) {
+    // 1. Find user by email
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Email or password is wrong');
+    }
+
+    // 2. Compare password
+    const isMatch = await bcrypt.compare(dto.password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('Email or password is wrong');
+    }
+
+    // 3. Generate Token (UUID)
+    const token = uuidv4();
+
+    // 4. Set expiration (24 hours)
+    const expiredAt = new Date();
+    expiredAt.setHours(expiredAt.getHours() + 24);
+
+    // 5. Save session to DB
+    await this.prisma.session.create({
+      data: {
+        token,
+        userId: user.id,
+        expiredAt,
+      },
+    });
+
+    return { data: token };
   }
 }

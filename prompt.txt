@@ -76,3 +76,51 @@ Jelaskan tahapan-tahapan yang harus dilakukan untuk mengimplementasikan ini seca
 Step 5
 
 Submit issue.md sebagai GitHub Issue baru
+
+Step 6
+
+Buatkan issue.md yang berisi perencanaan untuk nanti di implementasikan oleh junior programmer atau ai model yang lebih murah.
+
+Isi dari planningnya adalah sebagai berikut:
+
+buat tabel sessions:
+id integer auto increment
+token varchar 255 not null (isinya UUID untuk token user yang login)
+user_id integer not null (foreign key ke tabel users)
+created_at timestamp default current_timestamp
+
+buatkan API untuk login user baru 
+
+Endpoint: POST /api/users/login
+
+Request Body:
+{
+    "email": "[EMAIL_ADDRESS]",
+    "password": "password"
+}
+
+Response Success:
+{
+    "data": "token_yang_dihasilkan"
+}
+
+Response Error:
+{
+    "message": "Email or password is wrong"
+}
+
+Struktur folder di dalam src
+- routes
+- services: berisi logic
+
+Struktur file di dalam routes
+- users.routes.ts
+
+Struktur file di dalam services
+- users.service.ts
+
+Jelaskan tahapan-tahapan yang harus dilakukan untuk mengimplementasikan ini secara high level, anggap yang nanti mengerjakan adalah junior programmer atau ai model yang lebih murah.
+
+Step 7
+
+Submit issue.md sebagai GitHub Issue baru
