@@ -26,3 +26,53 @@ Kerjakan GitHub Issue: https://github.com/meshachvijaya/vibe-coding/issues/2
 Step 3
 
 Buatkan Pull Request ke branch main di GitHub atas perubahan ini
+
+Step 4
+
+Buatkan issue.md yang berisi perencanaan untuk nanti di implementasikan oleh junior programmer atau ai model yang lebih murah.
+
+Isi dari planningnya adalah sebagai berikut:
+
+buat tabel users:
+id integer auto increment
+name varchar 255 not null
+email varchar 255 unique not null
+password varchar 255 not null (password di hash dari bcrypt)
+created_at timestamp default current_timestamp
+
+buatkan API untuk regsitrasi user baru 
+
+Endpoint: POST /api/users
+
+Request Body:
+{
+    "name": "John Doe",
+    "email": "[EMAIL_ADDRESS]",
+    "password": "password"
+}
+
+Response Success:
+{
+    "data": "OK"
+}
+
+Response Error:
+{
+    "message": "Email already exists"
+}
+
+Struktur folder di dalam src
+- routes
+- services: berisi logic
+
+Struktur file di dalam routes
+- users.routes.ts
+
+Struktur file di dalam services
+- users.service.ts
+
+Jelaskan tahapan-tahapan yang harus dilakukan untuk mengimplementasikan ini secara high level, anggap yang nanti mengerjakan adalah junior programmer atau ai model yang lebih murah.
+
+Step 5
+
+Submit issue.md sebagai GitHub Issue baru
