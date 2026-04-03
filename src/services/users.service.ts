@@ -91,4 +91,23 @@ export class UsersService {
       },
     };
   }
+
+  async logoutUser(token: string) {
+    // 1. Find session by token
+    const session = await this.prisma.session.findUnique({
+      where: { token },
+    });
+
+    // 2. Validate session existence
+    if (!session) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    // 3. Delete session from DB
+    await this.prisma.session.delete({
+      where: { token },
+    });
+
+    return 'Ok';
+  }
 }
