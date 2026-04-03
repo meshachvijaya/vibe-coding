@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { LoginDto } from '../dto/login.dto';
 import { UsersService } from '../services/users.service';
@@ -15,5 +15,14 @@ export class UsersController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return this.usersService.loginUser(loginDto);
+  }
+
+  @Get('current')
+  async getCurrent(@Headers('authorization') authorization: string) {
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+    const token = authorization.replace('Bearer ', '');
+    return this.usersService.getCurrentUser(token);
   }
 }

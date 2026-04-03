@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -67,5 +67,28 @@ export class UsersService {
     });
 
     return { data: token };
+  }
+
+  async getCurrentUser(token: string) {
+    // 1. Find session by token and include user
+    const session = await this.prisma.session.findUnique({
+      where: { token },
+      include: { user: true },
+    });
+
+    // 2. Validate session existence and expiration
+    if (!session || session.expiredAt < new Date()) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    // 3. Return formatted user data
+    return {
+      data: {
+        id: session.user.id,
+        name: session.user.name,
+        email: session.user.email,
+        created_at: session.user.createdAt,
+      },
+    };
   }
 }
