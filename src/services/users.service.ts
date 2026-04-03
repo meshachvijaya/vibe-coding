@@ -69,26 +69,19 @@ export class UsersService {
     return { data: token };
   }
 
-  async getCurrentUser(token: string) {
-    // 1. Find session by token and include user
-    const session = await this.prisma.session.findUnique({
-      where: { token },
-      include: { user: true },
-    });
-
-    // 2. Validate session existence and expiration
-    if (!session || session.expiredAt < new Date()) {
-      throw new UnauthorizedException('Unauthorized');
+  async logoutUser(token: string) {
+    try {
+      // 1. Single delete operation (Optimization)
+      await this.prisma.session.delete({
+        where: { token },
+      });
+      return 'Ok';
+    } catch (error) {
+      // 2. Handle Prisma error P2025 (Record not found)
+      if (error.code === 'P2025') {
+        throw new UnauthorizedException('Unauthorized');
+      }
+      throw error;
     }
-
-    // 3. Return formatted user data
-    return {
-      data: {
-        id: session.user.id,
-        name: session.user.name,
-        email: session.user.email,
-        created_at: session.user.createdAt,
-      },
-    };
   }
 }

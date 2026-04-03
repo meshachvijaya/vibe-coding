@@ -168,3 +168,40 @@ Jelaskan tahapan-tahapan yang harus dilakukan untuk mengimplementasikan ini seca
 Step 9
 
 Submit issue.md sebagai GitHub Issue baru
+
+Step 10
+
+Buatkan issue.md yang berisi perencanaan untuk nanti di implementasikan oleh junior programmer atau ai model yang lebih murah.
+
+Isi dari planningnya adalah sebagai berikut:
+
+buatkan API untuk logout user
+
+Endpoint: DELETE /api/users/logout
+
+Headers:
+- Authorization: Bearer <token adalah token yang ada di tabel users>
+
+Response Success:
+{
+    "data": "Ok"
+}
+
+Jika sukses logout, maka data session dengan token tersebut harus di hapus dari database dari table session
+
+Response Error:
+{
+    "message": "Unauthorized"
+}
+
+Struktur folder di dalam src
+- routes
+- services: berisi logic
+
+Struktur file di dalam routes
+- users.routes.ts
+
+Struktur file di dalam services
+- users.service.ts
+
+Jelaskan tahapan-tahapan yang harus dilakukan untuk mengimplementasikan ini secara high level, anggap yang nanti mengerjakan adalah junior programmer atau ai model yang lebih murah.
